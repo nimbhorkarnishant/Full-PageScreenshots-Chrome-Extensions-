@@ -1,5 +1,5 @@
 chrome.storage.local.get(['user_email'], function(result) {
-    console.log('Value currently is ' + result.user_email);
+    console.log('Value currently is ' + result.user_email);     // checking is the user has credential like session
     if (result.user_email.length!=0) {
         document.getElementById("capture_content").style.display='block';
         document.getElementById("signin_container").style.display='none';
@@ -8,15 +8,14 @@ chrome.storage.local.get(['user_email'], function(result) {
 });
 
 document.getElementById("signin_button").addEventListener("click", sign_in); 
-document.getElementById("signup_button").addEventListener("click", sign_up);
+document.getElementById("signup_button").addEventListener("click", sign_up);       //Onclicklisner event
 document.getElementById("logout_icon").addEventListener("click", logout); 
 document.getElementById("Capture_icon").addEventListener("click",capture_tab); 
 
 
 function capture_tab(){
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-       // document.getElementById("signin_heading").innerHTML=tabs[0].id;
-        capture_content.initialize();    // calling intialize() method
+        capture_content.initialize();    // calling intialize() method from background js
        
      });
      
@@ -37,6 +36,7 @@ function firebase_credential(){
     firebase.initializeApp(firebaseConfig);
 }
 
+//Signup with firebase
 function sign_up(){
     var form_data={}
     var elements=document.getElementById("signup_form").getElementsByTagName("input");
@@ -67,7 +67,7 @@ function sign_up(){
     }
  }
 
- 
+ //Sigin in with Firebase
  function sign_in(){
     var form_data={}
     var elements=document.getElementById("signin_form").getElementsByTagName("input");
@@ -76,10 +76,10 @@ function sign_up(){
         form_data[element.name]=element.value;
     }
     firebase_credential();
-    firebase.auth().signInWithEmailAndPassword(form_data.email, form_data.password)
+    firebase.auth().signInWithEmailAndPassword(form_data.email, form_data.password)  // Firebase signin auth
     .then(function(user){
         alert("you logged in Successfully!!");
-        document.getElementById("capture_content").style.display='block';
+        document.getElementById("capture_content").style.display='block';     
         document.getElementById("signin_container").style.display='none';
         document.getElementById("signup_container").style.display='none';
         chrome.storage.local.set({user_email: form_data.email}, function() {
@@ -95,11 +95,12 @@ function sign_up(){
     });
  }
 
+ // Logout
  function logout(){
     document.getElementById("capture_content").style.display='none';
     document.getElementById("signin_container").style.display='block';
     document.getElementById("signup_container").style.display='block';
-    chrome.storage.local.set({user_email:''}, function() {
+    chrome.storage.local.set({user_email:''}, function() {            // Destroying Session or removing from storage
     });
     
  }
