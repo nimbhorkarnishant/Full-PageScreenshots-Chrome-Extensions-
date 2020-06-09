@@ -1,0 +1,42 @@
+{
+	"manifest_version": 2,
+	"name": "Capture All Content Extension",
+	"version": "1.0",
+	"description": "Capture all Content of webpage and download as pdf or image format",
+	"background": {
+		"scripts": [
+			"background.js"
+			
+		]
+	},
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": ["content_script.js"]
+		}
+	],
+	"permissions": [
+        "activeTab",
+		"tabs","http://*/*", 
+		"https://*/*",
+		"<all_urls>",
+		"storage"
+
+		
+	],
+	"icons": { "128": "icon.png" },
+	"browser_action": {
+		"default_icon": {             
+            "16": "icon.png",          
+            "48": "camera.png"           
+          },
+	
+		"default_title": "Capture all content!",
+		"default_popup": "main_page.html"
+
+	  },
+	"content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com https://www.gstatic.com; object-src 'self'"
+
+	
+	  
+}
