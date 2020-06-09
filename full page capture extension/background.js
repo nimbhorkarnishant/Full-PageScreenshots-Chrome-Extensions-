@@ -1,5 +1,3 @@
-var script_ext = document.createElement("script")
-script_ext.src="display_content.js" ; 
 var capture_content = {
 	tabId: null,		//ID of current tab
 	screenshotCanvas: null, //Canvas element (Object type)
@@ -25,19 +23,11 @@ var capture_content = {
 		// handle onClick plugin icon event
 	
 		chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-			//document.getElementById("signin_heading").innerHTML=tabs[0].id;
-			this.tabId = tabs[0].id;
-			
+			this.tabId = tabs[0].id;								//getting Id Of current tab
 			chrome.tabs.sendMessage(tabs[0].id, {
-				"msg": "getPageDetails"
+				"msg": "getPageDetails"					//sending message to content script to take detail of tab
 			});
 		}.bind(this));
-		// chrome.browserAction.onClicked.addListener(function (tab) {
-		// 	this.tabId = tab.id;
-		// chrome.tabs.sendMessage(tab.id, {
-		// 		"msg": "getPageDetails"
-		// 	});
-		// }.bind(this));
 
 		// handle chrome requests
 		chrome.runtime.onMessage.addListener(function (request, sender, callback) {
@@ -89,9 +79,7 @@ var capture_content = {
 							var doc=new jsPDF();                     // calling jspdf api method for pdf conversion
 							doc.addImage(img_new, "png",15,40,180,160);  // converging img to pdf
 							var base64pdf = btoa(doc.output());
-							//alert(base64pdf);
 							var pdf_url="data:application/pdf;base64,"+base64pdf;
-							alert(pdf_url);
 
 							newWindow = window.open();
 							// Html Page 
@@ -105,20 +93,9 @@ var capture_content = {
 							'position: absolute;right: 0;top: 0;}.topnav.responsive a {float: none;display: block;text-align: left;}}</style></head>'+
 							'<body><div class="topnav" id="myTopnav"><a  class="active">Home</a><a download="capure data as Image" href='+self.screenshotCanvas.toDataURL("image/png")+'>Download as Image</a>'+
 							'<a id="down_as_pdf" download="capure data as PDF" href='+pdf_url+'>Download as PDF</a><a href="javascript:void(0);" class="icon" id="mobile_view_click">'+
-							'<i class="fa fa-bars"></i></a></div><div style="margin-top: 20px;" id="image_container"><img id="show_image" style="width:96%" src='+ self.screenshotCanvas.toDataURL("image/png") +'>'+
+							'<i class="fa fa-bars"></i></a></div><div style="margin-top: 20px;" id="image_container"><img id="show_image" style="width:98%" src='+ self.screenshotCanvas.toDataURL("image/png") +'>'+
 							'</div></body></html>';
-		
 							newWindow.document.write(st); 
-							// var script = document.createElement("script");  // create a script DOM node
-							// script.src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js" ;   
-							// var script_ext = document.createElement("script");  // create a script DOM node
-							//script_ext.src="display_content.js" ;  
-							var script = document.createElement("script");  // create a script DOM node
-							script.src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js" ;
-							var script_ext = document.createElement("script");  // create a script DOM node
-							script_ext.src="display_content.js" ; 
-							newWindow.document.body.appendChild(script); //adding script to child
-							newWindow.document.body.appendChild(script_ext); //adding script to child
 						} else {
 							self.scrollTo(position + self.scrollBy);     // calling scrolling function
 						}

@@ -15,8 +15,7 @@ document.getElementById("Capture_icon").addEventListener("click",capture_tab);
 
 function capture_tab(){
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-        // alert(tabs[0]);
-        document.getElementById("signin_heading").innerHTML=tabs[0].id;
+       // document.getElementById("signin_heading").innerHTML=tabs[0].id;
         capture_content.initialize();    // calling intialize() method
        
      });
