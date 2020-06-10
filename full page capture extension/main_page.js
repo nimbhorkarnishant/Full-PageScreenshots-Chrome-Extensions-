@@ -1,9 +1,11 @@
 chrome.storage.local.get(['user_email'], function(result) {
     console.log('Value currently is ' + result.user_email);     // checking is the user has credential like session
-    if (result.user_email.length!=0) {
-        document.getElementById("capture_content").style.display='block';
-        document.getElementById("signin_container").style.display='none';
-        document.getElementById("signup_container").style.display='none';
+    if(result.user_email.length!='undefined'){
+        if (result.user_email.length!=0) {
+            document.getElementById("capture_content").style.display='block';
+            document.getElementById("signin_container").style.display='none';
+            document.getElementById("signup_container").style.display='none';
+        }
     }
 });
 
